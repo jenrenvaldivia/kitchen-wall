@@ -1,0 +1,4 @@
+node_modules/
+out/
+firmware/kitchen_wall/config.h
+.DS_Store

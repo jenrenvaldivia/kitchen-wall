@@ -1,0 +1,166 @@
+{
+  "_about": "Weekly menu from the Toddler Weekly Menu. days[0] is Sunday. 'tonight' is the before-bed thaw task for the next day's food. leadMinutes = how long before the ready time to start cooking.",
+  "childName": "Rafa",
+  "days": [
+    {
+      "day": "Sun",
+      "breakfast": {
+        "name": "Mushroom-spinach omelet, toast and mango",
+        "steps": [
+          "Cook 25 g finely chopped UV-treated mushrooms in ½ tsp butter for 4–5 min until soft. Add 20 g chopped spinach for 30 seconds.",
+          "Pour in 1 beaten egg and cook over low heat until fully set. Fold and cut into strips.",
+          "Serve with 25 g soft whole-grain toast and 45 g ripe mango, finely chopped."
+        ]
+      },
+      "dinner": {
+        "name": "Chicken and soba with tahini sauce",
+        "steps": [
+          "Warm the shredded chicken, covered, with a splash of water until steaming, then cool to warm.",
+          "Cook soba per the package, rinse, and cut into short pieces.",
+          "Boil shelled frozen edamame 5 min and mash. Steam carrot sticks 10–12 min until soft; warm the peppers.",
+          "Whisk 1 Tbsp tahini with 1 Tbsp warm water and a squeeze of lemon until smooth. Adults can add soy sauce to their own."
+        ],
+        "plate": "30 g chicken, 35 g edamame, 50 g soba, 40 g carrots, 30 g pepper, 8 g tahini sauce.",
+        "leadMinutes": 25,
+        "why": "Carrots take 10–12 minutes to steam"
+      },
+      "tonight": null
+    },
+    {
+      "day": "Mon",
+      "breakfast": {
+        "name": "Spinach scramble, oatmeal and kiwi",
+        "steps": [
+          "Finely chop a small handful of spinach. Wilt it in ½ tsp butter over low heat, 30 seconds.",
+          "Add 1 beaten egg and stir gently until fully set, with no runny parts.",
+          "Stir 20 g (about ⅓ cup) infant oatmeal into 60–80 ml warm water until smooth.",
+          "Peel the kiwi and cut into thin strips."
+        ]
+      },
+      "dinner": {
+        "name": "Beef, lentil and barley stew",
+        "steps": [
+          "Reheat the stew until steaming, then let Rafa's portion cool to warm."
+        ],
+        "plate": "Shred 30 g beef finely, lightly mash 45 g lentils, add 45 g barley and 30 g soft pepper, stir in 1 tsp olive oil.",
+        "leadMinutes": 15,
+        "why": "The stew just needs reheating"
+      },
+      "tonight": null
+    },
+    {
+      "day": "Tue",
+      "breakfast": {
+        "name": "Yogurt bowl",
+        "steps": [
+          "Stir 20 g infant oat cereal into 100 g plain whole-milk yogurt; add a splash of water if it gets too thick.",
+          "Top with 40 g finely chopped strawberries and 7 g ground walnuts.",
+          "Thin 1 tsp peanut butter with 1 tsp warm water and swirl it in."
+        ]
+      },
+      "dinner": {
+        "name": "Baked salmon, sweet potato, broccoli and quinoa",
+        "steps": [
+          "Heat oven to 400°F. Brush a 1½–2 lb salmon fillet with olive oil and bake 12–15 min, until it flakes and reads 145°F inside.",
+          "Flake the salmon with your fingers to find and remove every bone.",
+          "Steam broccoli florets 6–8 min until fork-soft; chop small.",
+          "Reheat and mash the sweet potato with a splash of milk. Warm the quinoa."
+        ],
+        "plate": "28 g salmon, 65 g sweet potato, 35 g broccoli, 45 g quinoa, 1 tsp olive oil.",
+        "leadMinutes": 35,
+        "why": "Heat the oven first; the salmon bakes 12–15 minutes"
+      },
+      "tonight": null
+    },
+    {
+      "day": "Wed",
+      "breakfast": {
+        "name": "Pumpkin oatmeal with kiwi",
+        "steps": [
+          "Stir 20 g infant oatmeal into 60 ml warm water, then mix in 45 g plain pumpkin purée (not pie filling).",
+          "Mash 35 g blueberries with a fork and swirl them in. Sprinkle with 5 g ground pumpkin seeds.",
+          "Serve 35 g kiwi strips on the side."
+        ]
+      },
+      "dinner": {
+        "name": "Leftover salmon, mashed potato, peas and carrots",
+        "steps": [
+          "Flake Tuesday's salmon and check again for bones. Warm it covered in the microwave at half power, 30–60 seconds, or serve it cold.",
+          "Peel and cube 1 large potato. Boil 15 min until very soft, then mash with a splash of milk and a little butter.",
+          "Boil frozen peas 4 min and mash with a fork. Steam carrot sticks 10–12 min until they squash easily."
+        ],
+        "plate": "28 g salmon, 60 g potato, 35 g peas, 40 g carrots, 1 tsp olive oil.",
+        "leadMinutes": 30,
+        "why": "Potatoes take 15 minutes to boil"
+      },
+      "tonight": "Move the pasta sauce (one family portion plus Rafa's cubes) from the freezer to the fridge."
+    },
+    {
+      "day": "Thu",
+      "breakfast": {
+        "name": "Egg, avocado toast and orange",
+        "steps": [
+          "Scramble 1 egg until fully set.",
+          "Lightly toast 25 g whole-grain bread so it stays soft. Spread with 30 g mashed avocado and cut into strips.",
+          "Cut the peel and white pith off an orange, slice the segments out from between the membranes, remove seeds and cut small."
+        ]
+      },
+      "dinner": {
+        "name": "Beef and white bean pasta",
+        "steps": [
+          "Cook 8 oz small whole-wheat pasta 1–2 min longer than the package says so it's soft.",
+          "Reheat the sauce until steaming."
+        ],
+        "plate": "50 g pasta with 30 g beef, 45 g lightly mashed beans and 40 g sauce mixed through.",
+        "leadMinutes": 20,
+        "why": "The pasta takes about 12 minutes"
+      },
+      "tonight": "Move the farro and the frozen peppers from the freezer to the fridge."
+    },
+    {
+      "day": "Fri",
+      "breakfast": {
+        "name": "Ricotta mini pancakes with raspberries",
+        "steps": [
+          "Reheat 3–4 frozen pancakes in the toaster or microwave (no thawing needed), then cool to warm.",
+          "Tear 40 g raspberries into small pieces."
+        ]
+      },
+      "dinner": {
+        "name": "Braised chicken thighs with chickpeas and kale",
+        "steps": [
+          "Brown the thighs in the oil, 4 min per side. Set aside.",
+          "Cook the diced onion and garlic in the same pan, 5 min.",
+          "Return the chicken with the chickpeas and broth. Cover and simmer 25 min, until tender and 175°F.",
+          "Add the kale for the last 8 min so it turns very soft. Squeeze in the lemon. Warm the farro and peppers."
+        ],
+        "plate": "Shred 30 g chicken finely, mash 45 g chickpeas, add 25 g kale, 30 g pepper, 50 g farro and 1 tsp olive oil.",
+        "leadMinutes": 50,
+        "why": "The chicken braises for 25 minutes"
+      },
+      "tonight": "Move the squash, quinoa and turkey-bean mix from the freezer to the fridge."
+    },
+    {
+      "day": "Sat",
+      "breakfast": {
+        "name": "Peanut butter quinoa porridge with egg",
+        "steps": [
+          "Warm 65 g cooked quinoa with 60 ml whole milk, 3–4 min, until creamy.",
+          "Thin 8 g (about 1½ tsp) smooth peanut butter with a little warm water and stir it in.",
+          "Top with 45 g ripe pear, finely chopped. Serve a hard-boiled egg from prep day, chopped small."
+        ]
+      },
+      "dinner": {
+        "name": "Turkey and black bean bowl",
+        "steps": [
+          "Reheat the turkey-bean mix and squash until steaming. Warm the peppers.",
+          "Mash ¼ avocado. Adults can add tortillas and salsa."
+        ],
+        "plate": "30 g turkey, 45 g beans, 50 g squash, 30 g avocado, 25 g pepper.",
+        "leadMinutes": 15,
+        "why": "Everything just needs reheating"
+      },
+      "tonight": null
+    }
+  ]
+}

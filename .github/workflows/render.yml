@@ -1,0 +1,61 @@
+name: Draw the wall screen
+
+on:
+  schedule:
+    # Every 30 minutes from about 5:30am to 9:30pm Arizona time (times here are UTC).
+    # Skipping the night keeps this inside GitHub's free monthly minutes for private repos.
+    # GitHub sometimes runs these a few minutes late; that's fine.
+    - cron: "7,37 0-4,12-23 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["config.json", "menu.json", "render/**", "photos/**"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Comes with Chromium and its libraries already installed, which keeps each run around a minute.
+    container: mcr.microsoft.com/playwright:v1.49.1-noble
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: render/package-lock.json
+
+      - name: Install
+        working-directory: render
+        run: npm ci
+
+      - name: Draw pages
+        working-directory: render
+        env:
+          WALL_CALENDAR_ICS: ${{ secrets.WALL_CALENDAR_ICS }}
+          WALL_PHOTOS_FOLDER_ID: ${{ secrets.WALL_PHOTOS_FOLDER_ID }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          OUT: ${{ github.workspace }}/out
+        run: node render.mjs
+
+      # The screen reads its pages from the "display" branch. Only the latest set is kept.
+      # The screen compares each page's version and skips the redraw when nothing changed.
+      - name: Publish to the display branch
+        run: |
+          cd out
+          git config --global --add safe.directory '*'
+          git init -q
+          git config user.name "wall-renderer"
+          git config user.email "wall-renderer@users.noreply.github.com"
+          git checkout -q -b display
+          git add -A
+          git commit -q -m "Wall pages"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" display
