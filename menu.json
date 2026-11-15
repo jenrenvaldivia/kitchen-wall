@@ -29,12 +29,11 @@
     {
       "day": "Mon",
       "breakfast": {
-        "name": "Spinach scramble, oatmeal and kiwi",
+        "name": "Egg, avocado toast and orange",
         "steps": [
-          "Finely chop a small handful of spinach. Wilt it in ½ tsp butter over low heat, 30 seconds.",
-          "Add 1 beaten egg and stir gently until fully set, with no runny parts.",
-          "Stir 20 g (about ⅓ cup) infant oatmeal into 60–80 ml warm water until smooth.",
-          "Peel the kiwi and cut into thin strips."
+          "Peel a hard-boiled egg from prep day and cut into quarters or small pieces.",
+          "Lightly toast 25 g whole-grain bread so it stays soft. Spread with 30 g mashed avocado plus a squeeze of lemon (slows browning) and cut into strips.",
+          "Cut the peel and white pith off an orange, slice the segments out from between the membranes, remove seeds and cut small. Pack in a small container."
         ]
       },
       "dinner": {
@@ -70,16 +69,15 @@
         "leadMinutes": 35,
         "why": "Heat the oven first; the salmon bakes 12–15 minutes"
       },
-      "tonight": null
+      "tonight": "Move 3 muffins from the freezer to the fridge for tomorrow's hike."
     },
     {
       "day": "Wed",
       "breakfast": {
-        "name": "Pumpkin oatmeal with kiwi",
+        "name": "Pumpkin blueberry oat muffins with kiwi",
         "steps": [
-          "Stir 20 g infant oatmeal into 60 ml warm water, then mix in 45 g plain pumpkin purée (not pie filling).",
-          "Mash 35 g blueberries with a fork and swirl them in. Sprinkle with 5 g ground pumpkin seeds.",
-          "Serve 35 g kiwi strips on the side."
+          "Pack 3 mini muffins.",
+          "Peel 1 kiwi, cut into thin strips and pack in a small container."
         ]
       },
       "dinner": {
@@ -98,11 +96,12 @@
     {
       "day": "Thu",
       "breakfast": {
-        "name": "Egg, avocado toast and orange",
+        "name": "Spinach scramble, oatmeal and kiwi",
         "steps": [
-          "Scramble 1 egg until fully set.",
-          "Lightly toast 25 g whole-grain bread so it stays soft. Spread with 30 g mashed avocado and cut into strips.",
-          "Cut the peel and white pith off an orange, slice the segments out from between the membranes, remove seeds and cut small."
+          "Finely chop a small handful of spinach. Wilt it in ½ tsp butter over low heat, 30 seconds.",
+          "Add 1 beaten egg and stir gently until fully set, with no runny parts.",
+          "Stir 20 g (about ⅓ cup) infant oatmeal into 60–80 ml warm water until smooth.",
+          "Peel the kiwi and cut into thin strips."
         ]
       },
       "dinner": {
@@ -115,15 +114,15 @@
         "leadMinutes": 20,
         "why": "The pasta takes about 12 minutes"
       },
-      "tonight": "Move the farro and the frozen peppers from the freezer to the fridge."
+      "tonight": "Move the farro, the frozen peppers and 4 pancakes from the freezer to the fridge."
     },
     {
       "day": "Fri",
       "breakfast": {
         "name": "Ricotta mini pancakes with raspberries",
         "steps": [
-          "Reheat 3–4 frozen pancakes in the toaster or microwave (no thawing needed), then cool to warm.",
-          "Tear 40 g raspberries into small pieces."
+          "Pack 3–4 pancakes. They're good cold, or toast them briefly and let them cool before packing.",
+          "Halve 40 g raspberries and pack in a small container."
         ]
       },
       "dinner": {
