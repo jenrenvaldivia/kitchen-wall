@@ -3,6 +3,18 @@ import { local, addDays, weekdayOf, dayOfMonth, monthOf, hm, clock, DOW, DOW_FUL
 
 const PICKUP = /trash|recycl|compost|yard waste/i;
 
+// Shortens a calendar title for a small cell: drops anything in parentheses and any time
+// already written into the name ("Mr. Nature at Bookmans (River) - 10-11am" -> "Mr. Nature at Bookmans").
+const T = String.raw`\d{1,2}(?::\d{2})?\s*(?:am|pm|a|p)?`;
+export function tidyTitle(title) {
+  const t = title
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(new RegExp(`\\s*[-–—,]?\\s*(?:@|at)?\\s*${T}\\s*(?:[-–]\\s*${T})?\\s*$`, "i"), (m) => (/\d/.test(m) && /(am|pm|a|p|@|at|-|–)/i.test(m) ? "" : m))
+    .replace(new RegExp(`\\s+(?:@|at)\\s*${T}(?=\\s|$)`, "i"), "")
+    .replace(/\s{2,}/g, " ").trim();
+  return t || title;
+}
+
 export function buildModel({ now, config, menu, events, weather }) {
   const tz = config.timezone;
   const L = local(now, tz);
@@ -88,13 +100,17 @@ export function buildModel({ now, config, menu, events, weather }) {
   const cells = [];
   for (let i = 0; i < config.weeksShown * 7; i++) {
     const k = addDays(start, i), list = evs(k);
-    const items = list.map((e) => ({ title: e.title, time: e.allDay ? null : clock(e.start), allDay: e.allDay, chore: e.chore }));
+    const cal = config.calendar || {};
+    const week = Math.floor(i / 7);
+    const roomy = cal.thisWeekTaller && week === 0;
+    const perCell = roomy ? 5 : cal.oneLine ? 3 : 2;
+    const items = list.map((e) => ({ title: cal.tidyNames ? tidyTitle(e.title) : e.title, time: e.allDay ? null : clock(e.start), allDay: e.allDay, chore: e.chore }));
     if (weekdayOf(k) === config.prepDayWeekday) items.push({ title: "Prep day", prep: true, allDay: true });
     cells.push({
       day: dayOfMonth(k) === 1 ? `${MONTHS[monthOf(k) - 1].slice(0, 3)} 1` : String(dayOfMonth(k)),
       newMonth: dayOfMonth(k) === 1 || i === 0 ? MONTHS[monthOf(k) - 1].slice(0, 3) : "",
       today: k === today, past: k < today,
-      items: items.slice(0, items.length > 2 ? 1 : 2), more: items.length > 2 ? items.length - 1 : 0,
+      items: items.slice(0, items.length > perCell ? perCell - 1 : perCell), more: items.length > perCell ? items.length - (perCell - 1) : 0,
     });
   }
 
@@ -117,7 +133,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   return {
     header: { weekday: DOW_FULL[L.dow], date: `${MONTHS[L.m - 1]} ${L.d}` },
     weather,
-    head, meals, side, cells, rows,
+    head, meals, side, cells, rows, calendar: config.calendar || {},
     header2: { weekday: DOW_FULL[evening ? weekdayOf(tomorrow) : L.dow], date: evening ? `${MONTHS[monthOf(tomorrow) - 1]} ${dayOfMonth(tomorrow)}` : `${MONTHS[L.m - 1]} ${L.d}`, tomorrow: evening },
     dows: DOW,
     mealsPage,

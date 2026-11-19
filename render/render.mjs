@@ -36,6 +36,7 @@ async function getWeather(cfg, tz) {
 
 async function main() {
   const config = await readJSON(path.join(root, "config.json"));
+  if (process.env.CONFIG_OVERRIDE) Object.assign(config, JSON.parse(process.env.CONFIG_OVERRIDE)); // for previews
   const menu = await readJSON(path.join(root, "menu.json"));
   const tz = config.timezone;
   const now = process.env.NOW ? new Date(process.env.NOW) : new Date();
