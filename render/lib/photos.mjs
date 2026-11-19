@@ -51,15 +51,16 @@ async function fromFolder(dir) {
 }
 
 /** Returns a PNG data URI already reduced to the six inks, or null when there are no photos. */
-export async function todaysPhoto({ dayNumber, localDir }) {
+export async function todaysPhoto({ dayNumber, localDir, height = 800 }) {
   const src = process.env.WALL_PHOTOS_FOLDER_ID && process.env.GOOGLE_SERVICE_ACCOUNT_JSON
     ? await fromDrive(process.env.WALL_PHOTOS_FOLDER_ID, process.env.GOOGLE_SERVICE_ACCOUNT_JSON)
     : await fromFolder(localDir);
   if (!src.count) return null;
   const buf = await src.load(dayNumber % src.count);
-  const { data } = await sharp(buf).rotate().resize(SCREEN_W, SCREEN_H, { fit: "cover", position: "attention" })
+  const W = SCREEN_W, H = height;
+  const { data } = await sharp(buf).rotate().resize(W, H, { fit: "cover", position: "centre" })
     .modulate({ saturation: 1.25 }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
-  const inked = ditherPhoto(data, SCREEN_W, SCREEN_H);
-  const png = await sharp(inked, { raw: { width: SCREEN_W, height: SCREEN_H, channels: 3 } }).png().toBuffer();
+  const inked = ditherPhoto(data, W, H);
+  const png = await sharp(inked, { raw: { width: W, height: H, channels: 3 } }).png().toBuffer();
   return "data:image/png;base64," + png.toString("base64");
 }

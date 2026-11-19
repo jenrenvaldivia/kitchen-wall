@@ -1,5 +1,6 @@
-// Converts a rendered 1600x1200 picture into the panel's own format:
+// Converts a rendered picture into the panel's own format:
 // 1200x1600 portrait, 4 bits per pixel, six raw ink codes (from Seeed's reTerminal E1004 example).
+// The screen hangs tall, so pages are drawn at the panel's native 1200x1600.
 import sharp from "sharp";
 
 // Ink colors the screen is designed with, and the code the panel expects for each.
@@ -12,7 +13,7 @@ export const INKS = [
   { name: "black",  rgb: [0, 0, 0],       code: 0xf },
 ];
 const WHITE = 0, BLACK = 5;
-export const PANEL_W = 1200, PANEL_H = 1600, SCREEN_W = 1600, SCREEN_H = 1200;
+export const PANEL_W = 1200, PANEL_H = 1600, SCREEN_W = 1200, SCREEN_H = 1600;
 
 function nearestInk(r, g, b) {
   let best = 0, bd = Infinity;
@@ -63,15 +64,15 @@ export function ditherPhoto(rgb, w, h) {
   return out;
 }
 
-/** Landscape ink indices (1600x1200) -> packed 4bpp panel bytes (1200x1600), rotated for mounting. */
-export function packForPanel(idx, rotate = 90) {
+/** Ink indices (1200x1600) -> packed 4bpp panel bytes. rotate 180 flips it if the screen hangs the other way up. */
+export function packForPanel(idx, rotate = 0) {
   const out = Buffer.alloc((PANEL_W * PANEL_H) / 2);
+  const N = PANEL_W * PANEL_H;
   for (let py = 0; py < PANEL_H; py++) {
     for (let px = 0; px < PANEL_W; px += 2) {
       const pick = (qx) => {
-        const sx = rotate === 90 ? py : SCREEN_W - 1 - py;
-        const sy = rotate === 90 ? SCREEN_H - 1 - qx : qx;
-        return INKS[idx[sy * SCREEN_W + sx]].code;
+        const i = py * PANEL_W + qx;
+        return INKS[idx[rotate === 180 ? N - 1 - i : i]].code;
       };
       out[(py * PANEL_W + px) >> 1] = (pick(px) << 4) | pick(px + 1);
     }

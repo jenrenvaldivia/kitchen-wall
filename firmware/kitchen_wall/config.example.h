@@ -12,5 +12,5 @@
 #define GITHUB_REPO    "jenrenvaldivia/kitchen-wall"
 #define GITHUB_BRANCH  "display"
 
-// 90 or 270. Must match "rotate" in config.json. If the picture is upside down, switch both.
-#define ROTATE         90
+// 0 or 180. Must match "rotate" in config.json. If the picture is upside down, change both to 180.
+#define ROTATE         0

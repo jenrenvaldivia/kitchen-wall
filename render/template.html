@@ -4,146 +4,103 @@
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Manrope:wght@500;700&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,500;1,7..72,500&family=Manrope:wght@500;700&display=block">
 <style>
-/* The six inks the panel can show. Use nothing else: any other color gets forced to the nearest of these. */
+/* The panel hangs tall: 1200 x 1600. Only six inks exist; any other color is forced to the nearest one.
+   The panel's white looks like warm, matte paper on the wall. */
 :root{--W:#ffffff;--K:#000000;--R:#e53935;--Y:#ffd800;--G:#1db954;--B:#004cff;
-  --display:"Bricolage Grotesque",sans-serif;--body:"Manrope",sans-serif}
+  --serif:"Literata",Georgia,serif;--sans:"Manrope",sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--W)}
-.screen{width:1600px;height:1200px;padding:56px 72px 40px;background:var(--W);color:var(--K);font-family:var(--body);font-weight:500;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.top{display:flex;justify-content:space-between;align-items:baseline;font-size:30px}
-.top b{font-weight:700}
-.cap{font-size:17px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin:0 0 12px}
-.cap.g{color:var(--G)}
+.screen{width:1200px;height:1600px;background:var(--W);color:var(--K);font-family:var(--sans);font-weight:500;display:flex;flex-direction:column;overflow:hidden}
 
-/* band */
-.band{display:grid;grid-template-columns:1.25fr 1fr 1fr;margin-top:26px}
-.band > div{min-width:0;padding:0 36px}
-.band > div + div{border-left:2px solid var(--K)}
-.band > .head{border-left:8px solid var(--R);padding:4px 30px 6px 24px;margin-right:36px}
-.band > .head + div{border-left:0;padding-left:0}
-.head.urgent{background:var(--G);border-left-color:var(--G);color:var(--W);padding:14px 22px 16px}
-.head .when{font-size:22px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.head .what{font-family:var(--display);font-weight:800;font-size:54px;line-height:1;letter-spacing:-.02em;margin:6px 0 10px}
-.head .why{font-size:23px;line-height:1.3}
-.meals{display:flex;flex-direction:column;gap:18px}
-.meal{font-size:25px;line-height:1.2}
-.meal span{display:block;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--G);margin-bottom:2px}
-.side section + section{margin-top:18px}
-.agenda{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.agenda li{display:grid;grid-template-columns:110px 1fr;gap:12px;font-size:23px;line-height:1.2}
-.agenda li b{font-weight:700}
-.agenda li.done{text-decoration:line-through;text-decoration-thickness:2px}
-.agenda li.now b{color:var(--R)}
-.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.checks li{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:23px;line-height:1.25}
-.checks li::before{content:"";width:18px;height:18px;border:3px solid var(--K);margin-top:4px}
-.checks li.done{text-decoration:line-through;text-decoration-thickness:2px}
-.checks li.done::before{background:var(--K)}
-.quiet{margin:0;font-size:22px}
+/* home: photo, one quiet header row, rolling weeks */
+.photo{flex:none;width:1200px;background:var(--W)}
+.photo img{display:block;width:1200px;height:100%;image-rendering:pixelated}
+.photo.empty{border-bottom:2px solid var(--K)}
+.hd{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;padding:26px 48px 24px}
+.dt b{display:block;font-family:var(--serif);font-weight:500;font-size:66px;line-height:1;letter-spacing:-.01em}
+.dt b i{font-style:italic}
+.dt span{display:block;font-size:24px;margin-top:10px}
+.dt em{font-style:normal;font-weight:700;font-size:18px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:6px}
+.rows{border-left:2px solid var(--K);padding-left:28px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.row{display:grid;grid-template-columns:150px 1fr;gap:14px;font-size:25px;line-height:1.2}
+.row small{font-size:16px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding-top:5px}
+.row.hot small,.row.hot b{color:var(--R)}
+.row.hot.go{background:var(--G);margin-left:-14px;padding:8px 14px}
+.row.hot.go small,.row.hot.go b{color:var(--W)}
+.row b{font-family:var(--serif);font-weight:500;font-size:30px;display:block}
+.row .note{display:block;font-size:20px;margin-top:3px}
+.row.check span::before{content:"";display:inline-block;width:16px;height:16px;border:2px solid var(--K);margin-right:10px;vertical-align:-1px}
+.cal{flex:1;padding:0 48px 34px;display:flex;min-height:0}
+.grid{flex:1;display:grid;grid-template-columns:repeat(7,1fr);column-gap:14px;border-top:2px solid var(--K);min-height:0}
+.h{font-size:16px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center}
+.c{padding:10px 0 0;border-top:1px solid var(--K);display:flex;flex-direction:column;gap:5px;min-width:0;overflow:hidden}
+.n{font-family:var(--serif);font-size:32px;line-height:1}
+.n small{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-left:6px;vertical-align:4px}
+.c.past .n{text-decoration:line-through;text-decoration-thickness:2px}
+.c.past .e,.c.past .more{display:none}
+.c.t{border-top:5px solid var(--R);padding-top:6px}
+.c.t .n{color:var(--R)}
+.e{font-size:19px;line-height:1.15;overflow-wrap:anywhere}
+.e b{font-weight:700}
+.e.dot::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:7px;vertical-align:1px;background:var(--B)}
+.e.chore::before{background:var(--K)}
+.e.prep::before{background:var(--G)}
+.more{font-size:16px;font-weight:700}
 
-/* month */
-.mo{flex:1;display:grid;grid-template-columns:repeat(7,1fr);margin-top:30px;min-height:0;border-top:3px solid var(--K)}
-.mo .h{font-size:18px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;padding-left:12px;border-bottom:2px solid var(--K)}
-.mo .c{padding:10px 10px;border-bottom:2px solid var(--K);display:flex;flex-direction:column;gap:6px;min-height:0;overflow:hidden}
-.mo > div:not(:nth-child(7n+1)){border-left:2px solid var(--K)}
-.mo .n{font-family:var(--display);font-weight:800;font-size:32px;line-height:1;margin-bottom:2px}
-.mo .c.past .n,.mo .c.past .e{text-decoration:line-through;text-decoration-thickness:3px}
-.mo .c.t{outline:6px solid var(--R);outline-offset:-6px}
-.mo .c.t .n{color:var(--R)}
-.mo .e{font-size:21px;line-height:1.2;overflow-wrap:anywhere}
-.mo .e b{font-weight:700}
-.mo .e.all{border-left:5px solid var(--B);padding-left:8px;font-weight:700}
-.mo .e.chore{border-left-color:var(--K)}
-.mo .e.prep{border-left:5px solid var(--G);padding-left:8px;color:var(--G);font-weight:700}
-.mo .more{font-size:17px;font-weight:700}
-
-/* meals page */
-.rec{flex:1;display:grid;grid-template-columns:1fr 1fr;column-gap:72px;margin-top:44px;min-height:0}
-.rec section{display:flex;flex-direction:column;gap:22px;min-width:0}
-.rec section + section{border-left:2px solid var(--K);padding-left:72px;margin-left:-36px}
-.rec h2{font-family:var(--display);font-weight:800;font-size:52px;line-height:1.02;letter-spacing:-.02em;margin:0}
-.rec .cap{margin:0}
-.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px;counter-reset:s}
-.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:10px;font-size:25px;line-height:1.3}
-.steps li::before{content:counter(s);font-family:var(--display);font-weight:800;font-size:34px;line-height:.95;color:var(--G)}
-.plate{border-left:6px solid var(--G);padding-left:20px;font-size:24px;line-height:1.4;margin-top:8px}
+/* today's meals */
+.mtop{padding:44px 56px 0;display:flex;justify-content:space-between;align-items:baseline;font-size:26px}
+.mtop b{font-family:var(--serif);font-weight:500;font-size:40px}
+.mtop span b{font-family:var(--sans);font-weight:700;font-size:26px;color:var(--R)}
+.meal{padding:30px 56px 0;display:flex;flex-direction:column;gap:16px}
+.meal + .meal{margin-top:26px;border-top:2px solid var(--K);margin-left:56px;margin-right:56px;padding-left:0;padding-right:0}
+.meal small{font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--G)}
+.meal h2{font-family:var(--serif);font-weight:500;font-size:50px;line-height:1.05;margin:0}
+.steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:8px;font-size:25px;line-height:1.3}
+.steps li::before{content:counter(s);font-family:var(--serif);font-size:32px;line-height:1;color:var(--G)}
+.plate{border-left:6px solid var(--G);padding-left:18px;font-size:23px;line-height:1.4}
 .plate b{font-weight:700}
-.bed{display:grid;grid-template-columns:22px 1fr;gap:16px;font-size:26px;line-height:1.35;border-top:2px solid var(--K);padding-top:18px;margin-top:24px}
-.bed::before{content:"";width:18px;height:18px;border:3px solid var(--K);margin-top:6px}
-.foot{display:flex;justify-content:space-between;font-size:16px;margin-top:14px}
-
-/* photo page */
-.photo{padding:0}
-.photo img{position:absolute;inset:0;width:1600px;height:1200px;image-rendering:pixelated}
-.bar{position:absolute;left:0;right:0;bottom:0;background:var(--W);border-top:3px solid var(--K);display:grid;grid-auto-flow:column;grid-auto-columns:1fr;grid-template-columns:auto;align-items:center;padding:20px 48px 22px}
-.bar > div{min-width:0;padding:0 36px}
-.bar > div:first-child{padding-left:0}
-.bar > div + div{border-left:2px solid var(--K)}
-.b-date b{display:block;font-family:var(--display);font-weight:800;font-size:36px;line-height:1}
-.b-date span{font-size:22px}
-.bar span.c{display:block;font-size:16px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
-.b-next span.c{color:var(--R)}
-.b-next b{font-family:var(--display);font-weight:800;font-size:38px;line-height:1.05;display:block}
-.b-next.urgent span.c,.b-next.urgent b{color:var(--G)}
-.b-ev ul{list-style:none;margin:0;padding:0;font-size:23px;line-height:1.3}
-.b-ev b{font-weight:700}
-.b-food{font-size:24px;line-height:1.2}
-.b-food span.c{color:var(--G)}
-.wx svg{width:40px;height:40px;vertical-align:-8px;margin-right:10px}
+.bed{margin:auto 56px 0;padding:20px 0 40px;border-top:2px solid var(--K);font-size:25px;line-height:1.35;display:grid;grid-template-columns:28px 1fr;gap:10px}
+.bed::before{content:"";width:18px;height:18px;border:2px solid var(--K);margin-top:6px}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
-const M = window.MODEL, PAGE = window.PAGE;
+const M = window.MODEL, PAGE = window.PAGE, PH = window.PHOTO_HEIGHT || 800;
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const sun = `<svg viewBox="0 0 54 54"><circle cx="20" cy="20" r="10" fill="#ffd800" stroke="#000" stroke-width="3"/><path d="M16 44h24a8 8 0 0 0 0-16 11 11 0 0 0-21 3 7 7 0 0 0-3 13z" fill="#fff" stroke="#000" stroke-width="3"/></svg>`;
-const wx = M.weather ? `<span class="wx">${sun}<b>${M.weather.hi}°</b> / ${M.weather.lo}° · ${esc(M.weather.text)}</span>` : "";
-const topBar = `<div class="top"><div><b>${M.header.weekday}</b>, ${M.header.date}</div>${wx}</div>`;
-const head = (h) => `<div class="head${h.urgent ? " urgent" : ""}"><div class="when">${esc(h.cap)}</div><div class="what">${esc(h.big)}</div>${h.sub ? `<div class="why">${esc(h.sub)}</div>` : ""}</div>`;
 
-function sideHTML(side) {
-  return side.sections.map((s) => `<section><p class="cap">${esc(s.cap)}</p>` +
-    (s.agenda ? (s.agenda.length ? `<ul class="agenda">${s.agenda.map((a) => `<li class="${a.done ? "done" : ""}${a.now ? " now" : ""}"><b>${esc(a.when)}</b><span>${esc(a.title)}</span></li>`).join("")}</ul>` : `<p class="quiet">${esc(s.empty)}</p>`) : "") +
-    (s.checks ? `<ul class="checks">${s.checks.map((c) => `<li class="${c.done ? "done" : ""}">${esc(c.text)}</li>`).join("")}</ul>` : "") +
-    `</section>`).join("");
-}
-
-function month() {
+function home() {
+  const h2 = M.header2, wx = M.weather ? `${M.weather.hi}° / ${M.weather.lo}° · ${esc(M.weather.text)}` : "";
+  const rows = M.rows.map((r) => `<div class="row${r.hot ? " hot" : ""}${r.hot && M.head.urgent ? " go" : ""}${r.check ? " check" : ""}">
+      <small>${esc(r.label)}</small><span>${r.hot ? `<b>${esc(r.text)}</b>` : esc(r.text)}${r.note ? `<span class="note">${esc(r.note)}</span>` : ""}</span></div>`).join("");
   const grid = M.dows.map((d) => `<div class="h">${d}</div>`).join("") + M.cells.map((c) =>
-    `<div class="c${c.today ? " t" : ""}${c.past ? " past" : ""}"><div class="n">${c.day}</div>` +
-    c.items.map((e) => e.prep ? `<div class="e prep">Prep day</div>` : e.allDay ? `<div class="e all${e.chore ? " chore" : ""}">${esc(e.title)}</div>` : `<div class="e"><b>${e.time}</b> ${esc(e.title)}</div>`).join("") +
+    `<div class="c${c.today ? " t" : ""}${c.past ? " past" : ""}"><div class="n">${c.day.replace(/^[A-Z][a-z]{2} /, "")}${/^[A-Z]/.test(c.day) ? `<small>${c.day.slice(0, 3)}</small>` : ""}</div>` +
+    c.items.map((e) => e.prep ? `<div class="e dot prep">Prep day</div>`
+      : e.allDay ? `<div class="e dot${e.chore ? " chore" : ""}">${esc(e.title)}</div>`
+      : `<div class="e"><b>${e.time}</b> ${esc(e.title)}</div>`).join("") +
     (c.more ? `<div class="more">+${c.more} more</div>` : "") + `</div>`).join("");
-  return `<div class="screen">${topBar}
-    <div class="band">${head(M.head)}<div class="meals">${M.meals.map((m) => `<div class="meal"><span>${esc(m.label)}</span>${esc(m.name)}</div>`).join("")}</div><div class="side">${sideHTML(M.side)}</div></div>
-    <div class="mo" style="grid-template-rows:40px repeat(${M.cells.length / 7},1fr)">${grid}</div></div>`;
+  return `<div class="screen">
+    <div class="photo${window.PHOTO ? "" : " empty"}" style="height:${window.PHOTO ? PH : 0}px">${window.PHOTO ? `<img src="${window.PHOTO}" alt="">` : ""}</div>
+    <div class="hd"><div class="dt">${h2.tomorrow ? "<em>Tomorrow</em>" : ""}<b><i>${h2.weekday}</i><br>${h2.date}</b>${wx && !h2.tomorrow ? `<span>${wx}</span>` : ""}</div>
+      <div class="rows">${rows}</div></div>
+    <div class="cal"><div class="grid" style="grid-template-rows:44px repeat(${M.cells.length / 7},1fr)">${grid}</div></div>
+  </div>`;
 }
 
 function meals() {
   const p = M.mealsPage, steps = (a) => `<ol class="steps">${a.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>`;
-  return `<div class="screen"><div class="top"><div><b>${p.title}</b> · ${p.dateLine}</div><div>${p.times}</div></div>
-    <div class="rec">
-      <section><p class="cap g">Breakfast</p><h2>${esc(p.breakfast.name)}</h2>${steps(p.breakfast.steps)}</section>
-      <section><p class="cap g">Dinner</p><h2>${esc(p.dinner.name)}</h2>${steps(p.dinner.steps)}${p.dinner.plate ? `<div class="plate"><b>${esc(p.childName)}'s plate:</b> ${esc(p.dinner.plate)}</div>` : ""}</section>
-    </div>
+  return `<div class="screen">
+    <div class="mtop"><b>${p.title}</b><span>${p.times}</span></div>
+    <div class="meal"><small>Breakfast</small><h2>${esc(p.breakfast.name)}</h2>${steps(p.breakfast.steps)}</div>
+    <div class="meal"><small>Dinner</small><h2>${esc(p.dinner.name)}</h2>${steps(p.dinner.steps)}${p.dinner.plate ? `<div class="plate"><b>${esc(p.childName)}'s plate:</b> ${esc(p.dinner.plate)}</div>` : ""}</div>
     ${p.beforeBed ? `<div class="bed"><span><b>Before bed:</b> ${esc(p.beforeBed)}</span></div>` : ""}
-    <div class="foot"><span>Full recipes and grocery list are in the Toddler Weekly Menu</span><span></span></div></div>`;
+  </div>`;
 }
 
-function photo() {
-  const b = M.photoBar, h = M.head;
-  return `<div class="screen photo">${window.PHOTO ? `<img src="${window.PHOTO}" alt="">` : ""}
-    <div class="bar">
-      <div class="b-date"><b>${M.header.weekday}</b><span>${M.header.date}</span></div>
-      <div class="b-next${h.urgent ? " urgent" : ""}"><span class="c">${esc(h.cap)}</span><b>${esc(h.big)}</b></div>
-      ${b.later.length ? `<div class="b-ev"><span class="c">${b.laterCap}</span><ul>${b.later.map((e) => `<li><b>${esc(e.when)}</b> ${esc(e.title)}</li>`).join("")}</ul></div>` : ""}
-      <div class="b-food"><span class="c">${esc(b.dinnerLabel)}</span>${esc(b.dinner)}</div>
-    </div></div>`;
-}
-
-document.getElementById("root").innerHTML = ({ month, meals, photo })[PAGE]();
+document.getElementById("root").innerHTML = ({ home, meals })[PAGE]();
 </script>
 </body>
 </html>

@@ -1,15 +1,16 @@
 {
   "_about": "Settings for the kitchen wall screen. Edit these, commit, and the next refresh picks them up.",
   "timezone": "America/Phoenix",
-  "weather": { "latitude": 32.22, "longitude": -110.97, "units": "fahrenheit" },
+  "weather": { "latitude": 32.24, "longitude": -111.07, "units": "fahrenheit" },
   "dinner": { "readyBy": "16:45", "eatAt": "17:00" },
   "morningChoresUntil": "10:00",
   "breakfastShownUntil": "10:00",
   "eveningStartsAt": "18:30",
+  "photoHeight": 800,
   "choreWords": ["trash", "recycling", "recycle", "filter", "compost", "yard waste"],
   "prepDayWeekday": 0,
-  "weeksShown": 4,
+  "weeksShown": 3,
   "mealsPageReturnsAfterMinutes": 60,
   "quietHours": { "from": "21:30", "to": "05:30" },
-  "rotate": 90
+  "rotate": 0
 }

@@ -52,18 +52,18 @@ async function main() {
   const weather = await getWeather(config, tz);
   const model = buildModel({ now, config, menu, events, weather });
   const dayNumber = Math.floor(Date.UTC(L.y, L.m - 1, L.d) / 86400000);
-  const photo = await todaysPhoto({ dayNumber, localDir: process.env.WALL_PHOTOS_DIR || path.join(root, "photos") }).catch((e) => { console.warn("Photo unavailable:", e.message); return null; });
+  const photo = await todaysPhoto({ dayNumber, localDir: process.env.WALL_PHOTOS_DIR || path.join(root, "photos"), height: config.photoHeight }).catch((e) => { console.warn("Photo unavailable:", e.message); return null; });
 
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const template = pathToFileURL(path.join(here, "template.html")).href;
-  const pages = ["month", "meals", "photo"];
+  const pages = ["home", "meals"];
   for (const name of pages) {
-    const page = await browser.newPage({ viewport: { width: 1600, height: 1200 }, deviceScaleFactor: 1 });
-    await page.addInitScript(({ m, p, ph }) => { window.MODEL = m; window.PAGE = p; window.PHOTO = ph; }, { m: model, p: name, ph: photo });
+    const page = await browser.newPage({ viewport: { width: 1200, height: 1600 }, deviceScaleFactor: 1 });
+    await page.addInitScript(({ m, p, ph, h }) => { window.MODEL = m; window.PAGE = p; window.PHOTO = ph; window.PHOTO_HEIGHT = h; }, { m: model, p: name, ph: photo, h: config.photoHeight });
     await page.goto(template, { waitUntil: "networkidle" });
     await page.evaluate(() => document.fonts.ready);
-    const png = await page.screenshot({ clip: { x: 0, y: 0, width: 1600, height: 1200 } });
-    const idx = quantizeUI(await pngToRGB(png), 1600, 1200);
+    const png = await page.screenshot({ clip: { x: 0, y: 0, width: 1200, height: 1600 } });
+    const idx = quantizeUI(await pngToRGB(png), 1200, 1600);
     await fs.writeFile(path.join(out, `${name}.bin`), packForPanel(idx, config.rotate));
     await fs.writeFile(path.join(out, `${name}.png`), await previewPNG(idx));
     await page.close();

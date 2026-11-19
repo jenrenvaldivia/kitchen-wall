@@ -6,8 +6,8 @@
  *   2. downloads that page (already drawn and converted by the renderer) only if it changed,
  *   3. redraws the panel, keeps a copy on the SD card, and goes back to deep sleep.
  *
- * Buttons: right = next page, left = previous page, refresh = redraw now.
- * Pages: 0 Month, 1 Today's meals, 2 Photo. Meals goes back to Month after a while; Photo stays.
+ * Buttons: right or left = switch page, refresh = redraw now.
+ * Pages: 0 Home (photo + calendar), 1 Today's meals. Meals goes back to Home after a while.
  *
  * Corner marks: red square = battery low; yellow square = no update for 3+ hours (check Wi-Fi).
  *
@@ -38,8 +38,8 @@ static const int SD_CS = 14, SD_EN = 16, SPI_SCK = 7, SPI_MISO = 8, SPI_MOSI = 9
 
 static const int PANEL_W = 1200, PANEL_H = 1600;
 static const size_t FRAME_BYTES = PANEL_W * PANEL_H / 2;  // 4 bits per pixel
-static const char* PAGES[] = {"month", "meals", "photo"};
-static const int PAGE_COUNT = 3;
+static const char* PAGES[] = {"home", "meals"};
+static const int PAGE_COUNT = 2;
 
 // ---- remembered across deep sleep -------------------------------------------
 RTC_DATA_ATTR int page = 0;                 // page that should be showing
@@ -172,8 +172,8 @@ static void cornerMark(uint32_t color, int slot) {
   const int size = 34, gap = 10, inset = 14;
   int along = inset + slot * (size + gap);   // distance from the right edge as it hangs
   int x, y;
-  if (ROTATE == 90) { x = PANEL_W - inset - size; y = PANEL_H - along - size; }
-  else              { x = inset;                  y = along; }
+  if (ROTATE == 180) { x = along;                   y = PANEL_H - inset - size; }
+  else               { x = PANEL_W - along - size;  y = inset; }
   epaper.fillRect(x, y, size, size, color);
 }
 
@@ -258,7 +258,7 @@ void setup() {
     if (listing.length()) lastSuccess = now;
   }
 
-  // Today's meals goes back to the month after a while; the photo stays until a button is pressed.
+  // Today's meals goes back to the home page after a while.
   if (!pressed && page == 1 && now - pageChosenAt > (time_t)mealsReturn * 60) page = 0;
 
   // Stale = the pages haven't been redrawn in 3+ hours (renderer stopped), or we can't reach GitHub.

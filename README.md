@@ -1,24 +1,23 @@
 # Kitchen wall screen
 
-A quiet wall calendar for the Seeed reTerminal E1004 (13.3" color e-ink). It shows:
+A quiet wall calendar for the Seeed reTerminal E1004 (13.3" color e-ink), hung tall. It shows:
 
-- **Month**, the default page: four rolling weeks, plus a band across the top with the one thing that matters next ("Trash out", "Start dinner · 4:15p", "Thaw for tomorrow"), today's meals, and a short checklist.
-- **Today's meals**: breakfast and dinner steps side by side, Rafa's plate, and the before-bed thaw.
-- **Photo**: a full-screen photo with a slim strip for the date, what's next, later-today events and dinner.
+- **Home**, the default page: a family photo across the top half (a different one each day), the date and weather, the one thing that matters next ("Trash out", "Start dinner · 4:15p", "Thaw for tomorrow") with today's meals and tonight's task, and three rolling weeks of calendar.
+- **Today's meals**: breakfast and dinner steps, Rafa's plate, and the before-bed thaw.
 
-The front buttons switch pages: right = next, left = previous, refresh = redraw now. Today's meals goes back to Month after an hour. Photo stays until you press a button.
+The front buttons switch pages; refresh redraws now. Today's meals goes back to Home after an hour.
 
 ## How it works
 
 ```
 Google Calendar ("Wall")  ─┐
 menu.json (weekly menu)   ─┼─>  GitHub Actions, every 30 min  ─>  "display" branch  ─>  screen downloads its page
-Google Drive photo folder ─┘     (render/ draws the pages)          (month.bin etc.)      and goes back to sleep
+Google Drive photo folder ─┘     (render/ draws the pages)          (home.bin, meals.bin)    and goes back to sleep
 ```
 
 The screen never draws anything itself. A GitHub Action draws each page every half hour, from about 5am to 10pm, and saves it in the exact format the panel needs. The screen wakes up, asks whether its page changed, downloads it only if it did, and sleeps again. Overnight it doesn't wake at all.
 
-`month.png`, `meals.png` and `photo.png` in the `display` branch show exactly what the wall shows right now, which is handy for checking from your phone.
+`home.png` and `meals.png` in the `display` branch show exactly what the wall shows right now, which is handy for checking from your phone.
 
 ---
 
@@ -41,11 +40,13 @@ In this repository on GitHub: **Settings → Secrets and variables → Actions �
 |---|---|
 | `WALL_CALENDAR_ICS` | the secret iCal address from step 1 |
 
-Then open the **Actions** tab, pick **Draw the wall screen**, and click **Run workflow**. After about a minute, switch to the `display` branch and open `month.png` to see your wall.
+Then open the **Actions** tab, pick **Draw the wall screen**, and click **Run workflow**. After about a minute, switch to the `display` branch and open `home.png` to see your wall.
 
 ### 3. Photos (optional, can be done later)
 
-Without this, the Photo page uses any JPG or PNG you put in the `photos/` folder of this repository.
+Without this, the screen uses any JPG or PNG in the `photos/` folder of this repository.
+
+Wide photos crop best: the photo area is 3:2, the shape of most camera photos held sideways. Bold, clear colors come out better than soft pastels.
 
 To use a Google Drive folder instead, so you can add photos from your phone:
 
@@ -77,7 +78,7 @@ The screen needs read-only access to this private repository.
 4. Open `firmware/kitchen_wall/kitchen_wall.ino`. Copy `config.example.h` to `config.h` in the same folder and fill in your Wi-Fi name and password (2.4 GHz only) and the token from step 4.
 5. Plug the screen into your computer with USB-C. Set **Tools → Board** to **XIAO_ESP32S3** and **Tools → PSRAM** to **OPI PSRAM**, pick the port, and click **Upload**.
 
-The screen draws the Month page within a minute. If the picture is upside down, change `"rotate"` in `config.json` to `270` and `ROTATE` in `config.h` to `270`, then upload again.
+The screen draws the Month page within a minute. Hang it tall. If the picture is upside down, change `"rotate"` in `config.json` to `180` and `ROTATE` in `config.h` to `180`, then upload again.
 
 ---
 
@@ -98,6 +99,7 @@ The screen draws the Month page within a minute. If the picture is upside down, 
 | `choreWords` | Words that make an all-day event a morning chore. |
 | `quietHours` | When the screen doesn't wake up. |
 | `weeksShown` | How many weeks the calendar shows. |
+| `photoHeight` | How tall the photo is, out of 1600. Lower it for more calendar. |
 
 **Changing the menu.** `menu.json` holds the week's breakfasts and dinners, each dinner's lead time, and the before-bed thaw. When the Toddler Weekly Menu changes, ask Claude to update `menu.json` to match.
 

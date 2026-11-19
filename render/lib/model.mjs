@@ -48,6 +48,9 @@ export function buildModel({ now, config, menu, events, weather }) {
                  : { cap: "Tonight", big: "Nothing else today", sub: "" };
   }
   head.urgent = !evening && t >= startAt - 20 && t < startAt + 15 && head.big === "Start dinner";
+  // short label for the home page's left column
+  head.short = head.cap.includes("·") ? head.cap.split("·").pop().trim()
+    : ({ "This morning": "Morning", "Before bed": "Tonight", "Tomorrow morning": "Tomorrow" })[head.cap] || head.cap;
 
   // ---- meals in the band ----
   const focus = evening ? mTomorrow : mToday;
@@ -73,7 +76,14 @@ export function buildModel({ now, config, menu, events, weather }) {
     side = { sections };
   }
 
-  // ---- month grid: rolling weeks from this Sunday ----
+  // ---- home page rows under the photo ----
+  const rows = [{ label: head.short, text: head.big, hot: true, note: head.sub && head.big !== "Thaw for tomorrow" ? head.sub : "" }];
+  if (evening || t < hm(config.breakfastShownUntil)) rows.push({ label: evening ? "Breakfast" : "Breakfast", text: focus.breakfast.name });
+  rows.push({ label: "Dinner", text: focus.dinner.name });
+  if (!evening && tonightTask && head.kind !== "thaw") rows.push({ label: "Tonight", text: tonightTask, check: true });
+  if (evening && head.kind === "thaw") rows[0].note = tonightTask;
+
+  // ---- calendar grid: rolling weeks from this Sunday ----
   const start = addDays(today, -weekdayOf(today));
   const cells = [];
   for (let i = 0; i < config.weeksShown * 7; i++) {
@@ -82,6 +92,7 @@ export function buildModel({ now, config, menu, events, weather }) {
     if (weekdayOf(k) === config.prepDayWeekday) items.push({ title: "Prep day", prep: true, allDay: true });
     cells.push({
       day: dayOfMonth(k) === 1 ? `${MONTHS[monthOf(k) - 1].slice(0, 3)} 1` : String(dayOfMonth(k)),
+      newMonth: dayOfMonth(k) === 1 || i === 0 ? MONTHS[monthOf(k) - 1].slice(0, 3) : "",
       today: k === today, past: k < today,
       items: items.slice(0, 3), more: Math.max(0, items.length - 3),
     });
@@ -106,7 +117,8 @@ export function buildModel({ now, config, menu, events, weather }) {
   return {
     header: { weekday: DOW_FULL[L.dow], date: `${MONTHS[L.m - 1]} ${L.d}` },
     weather,
-    head, meals, side, cells,
+    head, meals, side, cells, rows,
+    header2: { weekday: DOW_FULL[evening ? weekdayOf(tomorrow) : L.dow], date: evening ? `${MONTHS[monthOf(tomorrow) - 1]} ${dayOfMonth(tomorrow)}` : `${MONTHS[L.m - 1]} ${L.d}`, tomorrow: evening },
     dows: DOW,
     mealsPage,
     photoBar: { later: laterList, laterCap: evening ? "Tomorrow" : "Later today", dinnerLabel: evening ? "Tomorrow's dinner" : `Dinner · ready ${clock(readyBy)}`, dinner: focus.dinner.name },
