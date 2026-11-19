@@ -42,26 +42,54 @@ export function quantizeUI(rgb, w, h) {
   return out;
 }
 
+// Color matching for photos happens in CIELAB, which judges "closest color" the way eyes do.
+// Plain RGB distance lets a pale sky slip into green, which shows up as green streaks.
+function toLab(r, g, b) {
+  const lin = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  const R = lin(r), G = lin(g), B = lin(b);
+  const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+  const x = f((R * 0.4124 + G * 0.3576 + B * 0.1805) / 0.95047);
+  const y = f(R * 0.2126 + G * 0.7152 + B * 0.0722);
+  const z = f((R * 0.0193 + G * 0.1192 + B * 0.9505) / 1.08883);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+}
+const INK_LAB = INKS.map((k) => toLab(...k.rgb));
+function nearestInkLab(r, g, b) {
+  const [L, A, B] = toLab(r, g, b);
+  let best = 0, bd = Infinity;
+  for (let i = 0; i < INK_LAB.length; i++) {
+    const dl = L - INK_LAB[i][0], da = A - INK_LAB[i][1], db = B - INK_LAB[i][2];
+    const d = dl * dl + da * da + db * db;
+    if (d < bd) { bd = d; best = i; }
+  }
+  return best;
+}
+
 /** Floyd–Steinberg dither for photos. Returns an RGB buffer that only uses the six inks. */
 export function ditherPhoto(rgb, w, h) {
   const buf = new Float32Array(rgb.length);
   for (let i = 0; i < rgb.length; i++) buf[i] = rgb[i];
   const out = Buffer.alloc(rgb.length);
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const i = (y * w + x) * 3;
-    // Clamp, or leftover error snowballs into solid blotches of one ink (e.g. green patches in dark hair).
-    const cl = (v) => (v < 0 ? 0 : v > 255 ? 255 : v);
-    const r = cl(buf[i]), g = cl(buf[i + 1]), b = cl(buf[i + 2]);
-    const [R, G, B] = INKS[nearestInk(r, g, b)].rgb;
-    out[i] = R; out[i + 1] = G; out[i + 2] = B;
-    const er = r - R, eg = g - G, eb = b - B;
-    const spread = (dx, dy, f) => {
-      const xx = x + dx, yy = y + dy;
-      if (xx < 0 || xx >= w || yy >= h) return;
-      const j = (yy * w + xx) * 3;
-      buf[j] += er * f; buf[j + 1] += eg * f; buf[j + 2] += eb * f;
-    };
-    spread(1, 0, 7 / 16); spread(-1, 1, 3 / 16); spread(0, 1, 5 / 16); spread(1, 1, 1 / 16);
+  const cl = (v) => (v < 0 ? 0 : v > 255 ? 255 : v);
+  for (let y = 0; y < h; y++) {
+    // Alternate direction each row so leftover error doesn't streak one way.
+    const ltr = y % 2 === 0;
+    for (let n = 0; n < w; n++) {
+      const x = ltr ? n : w - 1 - n, dir = ltr ? 1 : -1;
+      const i = (y * w + x) * 3;
+      // Clamp, or leftover error snowballs into solid blotches of one ink.
+      const r = cl(buf[i]), g = cl(buf[i + 1]), b = cl(buf[i + 2]);
+      const [R, G, B] = INKS[nearestInkLab(r, g, b)].rgb;
+      out[i] = R; out[i + 1] = G; out[i + 2] = B;
+      const er = r - R, eg = g - G, eb = b - B;
+      const spread = (dx, dy, f) => {
+        const xx = x + dx * dir, yy = y + dy;
+        if (xx < 0 || xx >= w || yy >= h) return;
+        const j = (yy * w + xx) * 3;
+        buf[j] += er * f; buf[j + 1] += eg * f; buf[j + 2] += eb * f;
+      };
+      spread(1, 0, 7 / 16); spread(-1, 1, 3 / 16); spread(0, 1, 5 / 16); spread(1, 1, 1 / 16);
+    }
   }
   return out;
 }
