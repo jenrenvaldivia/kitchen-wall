@@ -11,6 +11,7 @@
   "choreWords": ["trash", "recycling", "recycle", "filter", "compost", "yard waste"],
   "prepDayWeekday": 0,
   "weeksShown": 3,
+  "calendar": { "thisWeekTaller": true, "tidyNames": true, "oneLine": false },
   "mealsPageReturnsAfterMinutes": 60,
   "quietHours": { "from": "21:30", "to": "05:30" },
   "rotate": 0

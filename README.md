@@ -101,6 +101,7 @@ The screen draws the Month page within a minute. Hang it tall. If the picture is
 | `choreWords` | Words that make an all-day event a morning chore. |
 | `quietHours` | When the screen doesn't wake up. |
 | `weeksShown` | How many weeks the calendar shows. |
+| `calendar` | `thisWeekTaller` gives this week more room; `tidyNames` drops parentheses and times written into event names; `oneLine` fits more events by cutting names to one line. |
 | `photoHeight` | How tall the photo is, out of 1600. Lower it for more calendar. |
 
 **Changing the menu.** `menu.json` holds the week's breakfasts and dinners, each dinner's lead time, and the before-bed thaw. When the Toddler Weekly Menu changes, ask Claude to update `menu.json` to match.
