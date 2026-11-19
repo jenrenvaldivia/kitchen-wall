@@ -7,7 +7,7 @@
   "breakfastShownUntil": "10:00",
   "eveningStartsAt": "18:30",
   "photoHeight": 800,
-  "hideEvents": ["AME", "No classes"],
+  "hideEvents": ["AME", "No classes", "daycare pickup", "daycare dropoff", "daycare drop-off", "daycare drop off"],
   "choreWords": ["trash", "recycling", "recycle", "filter", "compost", "yard waste"],
   "prepDayWeekday": 0,
   "weeksShown": 3,
