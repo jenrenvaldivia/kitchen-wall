@@ -22,8 +22,8 @@ export function eventsByDay(icsText, { tz, fromKey, toKey, choreWords, hideEvent
   const { events, occurrences } = expander.between(after, before);
 
   const items = [
-    ...events.map((e) => ({ title: e.summary, startDate: e.startDate, endDate: e.endDate, status: e.component.getFirstPropertyValue("status") })),
-    ...occurrences.map((o) => ({ title: o.item.summary, startDate: o.startDate, endDate: o.endDate, status: o.item.component.getFirstPropertyValue("status") })),
+    ...events.map((e) => ({ title: e.summary, notes: e.description, startDate: e.startDate, endDate: e.endDate, status: e.component.getFirstPropertyValue("status") })),
+    ...occurrences.map((o) => ({ title: o.item.summary, notes: o.item.description, startDate: o.startDate, endDate: o.endDate, status: o.item.component.getFirstPropertyValue("status") })),
   ];
 
   const isChore = (t) => choreWords.some((w) => t.toLowerCase().includes(w));
@@ -37,6 +37,8 @@ export function eventsByDay(icsText, { tz, fromKey, toKey, choreWords, hideEvent
     if ((it.status || "").toUpperCase() === "CANCELLED") continue;
     const title = (it.title || "").trim();
     if (!title || hidden(title)) continue;
+    // Typing #nowall anywhere in an event's description (or title) keeps it off the wall.
+    if (/#no-?wall\b/i.test(`${title} ${it.notes || ""}`)) continue;
     if (it.startDate.isDate) {
       // All-day: the end date is exclusive. Spread multi-day events across each day.
       let k = keyOf(it.startDate.year, it.startDate.month, it.startDate.day);
