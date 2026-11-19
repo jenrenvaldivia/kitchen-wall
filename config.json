@@ -7,6 +7,7 @@
   "breakfastShownUntil": "10:00",
   "eveningStartsAt": "18:30",
   "photoHeight": 800,
+  "hideEvents": ["AME", "No classes"],
   "choreWords": ["trash", "recycling", "recycle", "filter", "compost", "yard waste"],
   "prepDayWeekday": 0,
   "weeksShown": 3,

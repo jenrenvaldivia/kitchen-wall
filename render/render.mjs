@@ -47,7 +47,7 @@ async function main() {
     ? await fs.readFile(process.env.WALL_CALENDAR_FILE, "utf8")
     : process.env.WALL_CALENDAR_ICS ? await fetchCalendar(process.env.WALL_CALENDAR_ICS) : null;
   if (!ics) throw new Error("No calendar: set the WALL_CALENDAR_ICS secret to your Wall calendar's secret iCal address.");
-  const events = eventsByDay(ics, { tz, fromKey: addDays(L.key, -7), toKey: addDays(L.key, 7 * config.weeksShown + 7), choreWords: config.choreWords });
+  const events = eventsByDay(ics, { tz, fromKey: addDays(L.key, -7), toKey: addDays(L.key, 7 * config.weeksShown + 7), choreWords: config.choreWords, hideEvents: config.hideEvents });
 
   const weather = await getWeather(config, tz);
   const model = buildModel({ now, config, menu, events, weather });

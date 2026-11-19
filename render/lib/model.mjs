@@ -94,7 +94,7 @@ export function buildModel({ now, config, menu, events, weather }) {
       day: dayOfMonth(k) === 1 ? `${MONTHS[monthOf(k) - 1].slice(0, 3)} 1` : String(dayOfMonth(k)),
       newMonth: dayOfMonth(k) === 1 || i === 0 ? MONTHS[monthOf(k) - 1].slice(0, 3) : "",
       today: k === today, past: k < today,
-      items: items.slice(0, 3), more: Math.max(0, items.length - 3),
+      items: items.slice(0, 2), more: Math.max(0, items.length - 2),
     });
   }
 

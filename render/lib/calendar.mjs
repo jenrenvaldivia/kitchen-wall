@@ -2,11 +2,19 @@
 import IcalExpander from "ical-expander";
 import { local, keyOf, addDays } from "./time.mjs";
 
+// An event is hidden when its title contains any hideEvents entry as a whole word or phrase
+// ("AME" hides "AME 324A-Engineering Materials" but not "Game night"). Not case-sensitive.
+function hider(words = []) {
+  const res = words.filter(Boolean).map((w) => new RegExp(`(^|[^a-z0-9])${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|[^a-z0-9])`, "i"));
+  return (title) => res.some((r) => r.test(title));
+}
+
 /**
  * Returns { "2026-11-04": [ {title, allDay, start, end, chore} ... ] } for the days in [fromKey, toKey].
  * start/end are minutes after local midnight (null for all-day events).
  */
-export function eventsByDay(icsText, { tz, fromKey, toKey, choreWords }) {
+export function eventsByDay(icsText, { tz, fromKey, toKey, choreWords, hideEvents }) {
+  const hidden = hider(hideEvents);
   const expander = new IcalExpander({ ics: icsText, maxIterations: 2000 });
   // Pad the window by a day on each side so time-zone edges never drop an event.
   const after = new Date(addDays(fromKey, -1) + "T00:00:00Z");
@@ -28,7 +36,7 @@ export function eventsByDay(icsText, { tz, fromKey, toKey, choreWords }) {
   for (const it of items) {
     if ((it.status || "").toUpperCase() === "CANCELLED") continue;
     const title = (it.title || "").trim();
-    if (!title) continue;
+    if (!title || hidden(title)) continue;
     if (it.startDate.isDate) {
       // All-day: the end date is exclusive. Spread multi-day events across each day.
       let k = keyOf(it.startDate.year, it.startDate.month, it.startDate.day);

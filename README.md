@@ -96,6 +96,7 @@ The screen draws the Month page within a minute. Hang it tall. If the picture is
 |---|---|
 | `dinner.readyBy`, `dinner.eatAt` | When food should be ready and when you eat. Start-by times count back from `readyBy`. |
 | `timezone`, `weather` | Where you are. If you move, also change the times in `.github/workflows/render.yml` (they're in UTC). |
+| `hideEvents` | Words that keep an event off the wall, e.g. `"AME"` hides your classes. Whole words only, so `"AME"` won't hide "Game night". |
 | `choreWords` | Words that make an all-day event a morning chore. |
 | `quietHours` | When the screen doesn't wake up. |
 | `weeksShown` | How many weeks the calendar shows. |
