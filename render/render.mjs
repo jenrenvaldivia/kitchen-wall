@@ -52,7 +52,7 @@ async function main() {
   const weather = await getWeather(config, tz);
   const model = buildModel({ now, config, menu, events, weather });
   const dayNumber = Math.floor(Date.UTC(L.y, L.m - 1, L.d) / 86400000);
-  const photo = await todaysPhoto({ dayNumber, localDir: process.env.WALL_PHOTOS_DIR || path.join(root, "photos"), height: config.photoHeight }).catch((e) => { console.warn("Photo unavailable:", e.message); return null; });
+  const photo = await todaysPhoto({ dayNumber, month: L.m, localDir: process.env.WALL_PHOTOS_DIR || path.join(root, "photos"), height: config.photoHeight }).catch((e) => { console.warn("Photo unavailable:", e.message); return null; });
 
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const template = pathToFileURL(path.join(here, "template.html")).href;

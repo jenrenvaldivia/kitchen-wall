@@ -56,7 +56,7 @@ To use a Google Drive folder instead, so you can add photos from your phone:
 4. Back in Drive, share the **Wall photos** folder with the service account's email address (it ends in `iam.gserviceaccount.com`), as a Viewer.
 5. Add two more repository secrets: `WALL_PHOTOS_FOLDER_ID` (the folder ID) and `GOOGLE_SERVICE_ACCOUNT_JSON` (the entire contents of the downloaded JSON file).
 
-A different photo is shown each day. iPhone HEIC photos work.
+**One photo per month:** start each file name with the month's number, like `01-snow-day.jpg` or `11-thanksgiving.jpg`, and that photo shows all month. Put two photos under the same month and they take turns by day. Photos without a month number take turns whenever no photo is named for that month. iPhone HEIC photos work.
 
 ### 4. Make a token for the screen
 

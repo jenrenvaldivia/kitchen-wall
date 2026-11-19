@@ -51,12 +51,21 @@ async function fromFolder(dir) {
 }
 
 /** Returns a PNG data URI already reduced to the six inks, or null when there are no photos. */
-export async function todaysPhoto({ dayNumber, localDir, height = 800 }) {
+// A photo whose name starts with a month number ("11-thanksgiving.jpg", "03 spring.png") is shown all that month.
+// When no photo is named for this month, the photos take turns, one per day.
+function pickIndex(names, month, dayNumber) {
+  const mm = String(month).padStart(2, "0");
+  const forMonth = names.map((n, i) => [n, i]).filter(([n]) => new RegExp(`^${mm}([^0-9]|$)`).test(n));
+  if (forMonth.length) return forMonth[dayNumber % forMonth.length][1];
+  return dayNumber % names.length;
+}
+
+export async function todaysPhoto({ dayNumber, month, localDir, height = 800 }) {
   const src = process.env.WALL_PHOTOS_FOLDER_ID && process.env.GOOGLE_SERVICE_ACCOUNT_JSON
     ? await fromDrive(process.env.WALL_PHOTOS_FOLDER_ID, process.env.GOOGLE_SERVICE_ACCOUNT_JSON)
     : await fromFolder(localDir);
   if (!src.count) return null;
-  const buf = await src.load(dayNumber % src.count);
+  const buf = await src.load(pickIndex(src.names, month, dayNumber));
   const W = SCREEN_W, H = height;
   const { data } = await sharp(buf).rotate().resize(W, H, { fit: "cover", position: "centre" })
     .modulate({ saturation: 1.25 }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
