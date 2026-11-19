@@ -68,7 +68,7 @@ export async function todaysPhoto({ dayNumber, month, localDir, height = 800 }) 
   const buf = await src.load(pickIndex(src.names, month, dayNumber));
   const W = SCREEN_W, H = height;
   const { data } = await sharp(buf).rotate().resize(W, H, { fit: "cover", position: "centre" })
-    .modulate({ saturation: 1.25 }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+    .modulate({ saturation: 1.1 }).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const inked = ditherPhoto(data, W, H);
   const png = await sharp(inked, { raw: { width: W, height: H, channels: 3 } }).png().toBuffer();
   return "data:image/png;base64," + png.toString("base64");

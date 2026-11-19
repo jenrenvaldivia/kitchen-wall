@@ -49,7 +49,9 @@ export function ditherPhoto(rgb, w, h) {
   const out = Buffer.alloc(rgb.length);
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const i = (y * w + x) * 3;
-    const r = buf[i], g = buf[i + 1], b = buf[i + 2];
+    // Clamp, or leftover error snowballs into solid blotches of one ink (e.g. green patches in dark hair).
+    const cl = (v) => (v < 0 ? 0 : v > 255 ? 255 : v);
+    const r = cl(buf[i]), g = cl(buf[i + 1]), b = cl(buf[i + 2]);
     const [R, G, B] = INKS[nearestInk(r, g, b)].rgb;
     out[i] = R; out[i + 1] = G; out[i + 2] = B;
     const er = r - R, eg = g - G, eb = b - B;
