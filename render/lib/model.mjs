@@ -89,7 +89,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   }
 
   // ---- home page rows under the photo ----
-  const rows = [{ label: head.short, text: head.big, hot: true, note: head.sub && head.big !== "Thaw for tomorrow" ? head.sub : "" }];
+  const rows = [{ label: head.short, text: head.big, hot: true, note: head.sub || "" }];
   if (evening || t < hm(config.breakfastShownUntil)) rows.push({ label: evening ? "Breakfast" : "Breakfast", text: focus.breakfast.name });
   rows.push({ label: "Dinner", text: focus.dinner.name });
   if (!evening && tonightTask && head.kind !== "thaw") rows.push({ label: "Tonight", text: tonightTask, check: true });
