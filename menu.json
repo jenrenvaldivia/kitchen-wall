@@ -5,10 +5,10 @@
     {
       "day": "Sun",
       "breakfast": {
-        "name": "Egg bites, toast and mango",
+        "name": "French toast sticks with mango",
         "steps": [
-          "Microwave 3 egg bites 20–30 seconds until warm.",
-          "Serve with 25 g soft whole-grain toast and 45 g ripe mango, finely chopped."
+          "Toast 3–4 frozen French toast sticks until hot through, then let them cool to warm.",
+          "Serve with 45 g ripe mango or strawberries, finely chopped. Mash some on top instead of syrup."
         ]
       },
       "dinner": {
@@ -61,7 +61,7 @@
       "dinner": {
         "name": "Baked salmon, sweet potato, broccoli and quinoa",
         "steps": [
-          "Heat oven to 400°F. Mix 2 Tbsp olive oil, 2 minced garlic cloves, the zest of ½ lemon and 1 Tbsp chopped fresh parsley. Spread over a 1½–2 lb salmon fillet and bake 12–15 min, until it flakes and reads 145°F inside.",
+          "Heat oven to 400°F. Mix 2 Tbsp olive oil, 2 minced garlic cloves, the zest of ½ lemon and 1 Tbsp chopped fresh parsley. Spread over a 1¼ lb salmon fillet (1½ lb with a guest) and bake 12–15 min, until it flakes and reads 145°F inside.",
           "Flake the salmon with your fingers to find and remove every bone.",
           "Reheat the broccoli, sweet potato and quinoa. Mash the sweet potato with a splash of milk.",
           "Serve with: Lemon wedges for the salmon and a sprinkle of parmesan on the broccoli."
@@ -87,10 +87,9 @@
           "Flake Tuesday's salmon and check again for bones. Warm it covered in the microwave at half power, 30–60 seconds, or serve it cold.",
           "Reheat the mashed potato and carrots until steaming.",
           "Microwave frozen peas with a splash of water, 2–3 min, and mash with a fork.",
-          "Stir together lemon-chive yogurt sauce: 3 Tbsp plain whole-milk yogurt, 1 tsp chopped chives and a squeeze of lemon.",
           "Serve with: A drizzle of olive oil over the salmon."
         ],
-        "plate": "28 g salmon, 60 g potato, 35 g peas, 40 g carrots, a spoonful of yogurt sauce.",
+        "plate": "28 g salmon, 60 g potato, 35 g peas, 40 g carrots, 1 tsp olive oil drizzled over the salmon.",
         "leadMinutes": 15,
         "why": "Everything is reheated; the peas take about 3 minutes."
       },
@@ -109,7 +108,7 @@
       "dinner": {
         "name": "Beef and white bean pasta",
         "steps": [
-          "Cook 8 oz small whole-wheat pasta 1–2 min longer than the package says so it's soft.",
+          "Cook 4 oz small whole-wheat pasta (8 oz with a guest) 1–2 min longer than the package says so it's soft.",
           "Reheat the sauce until steaming.",
           "Serve with: Grated parmesan for everyone, and torn fresh basil if you have it."
         ],
@@ -162,7 +161,7 @@
         "leadMinutes": 15,
         "why": "Everything just needs reheating"
       },
-      "tonight": "Move 3 egg bites and the frozen carrots from the freezer to the fridge."
+      "tonight": "Move the frozen carrots from the freezer to the fridge."
     }
   ]
 }
