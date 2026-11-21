@@ -1,0 +1,14 @@
+{
+  "generated": "2026-11-21T08:43:53.657Z",
+  "generatedEpoch": 1795250633,
+  "utcOffsetMinutes": -420,
+  "pages": [
+    "home",
+    "meals"
+  ],
+  "quietHours": {
+    "from": "21:30",
+    "to": "05:30"
+  },
+  "mealsPageReturnsAfterMinutes": 60
+}
