@@ -7,6 +7,10 @@
   "breakfastShownUntil": "10:00",
   "eveningStartsAt": "18:30",
   "photoHeight": 800,
+  "mealOverrides": {
+    "2026-11-25": { "tonight": "Move 3 egg bites from the freezer to the fridge." },
+    "2026-11-26": { "dinner": "Thanksgiving meal" }
+  },
   "hideEvents": ["AME", "No classes", "daycare pickup", "daycare dropoff", "daycare drop-off", "daycare drop off", "Baja"],
   "choreWords": ["trash", "recycling", "recycle", "filter", "compost", "yard waste"],
   "prepDayWeekday": 0,

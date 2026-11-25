@@ -24,7 +24,17 @@ export function buildModel({ now, config, menu, events, weather }) {
   const evening = t >= hm(config.eveningStartsAt);
   const choresUntil = hm(config.morningChoresUntil);
 
-  const dayMenu = (key) => menu.days[weekdayOf(key)];
+  // One-off changes for a date in config.json "mealOverrides", e.g.
+  // "2026-11-26": { "dinner": "Thanksgiving meal" }  and  "2026-11-25": { "tonight": "Move 3 egg bites..." }
+  const dayMenu = (key) => {
+    const base = menu.days[weekdayOf(key)], o = (config.mealOverrides || {})[key];
+    if (!o) return base;
+    const d = { ...base };
+    if (o.breakfast) d.breakfast = { name: o.breakfast, steps: [] };
+    if (o.dinner) d.dinner = { name: o.dinner, steps: [], plate: "", leadMinutes: 0, why: "", noCook: true };
+    if ("tonight" in o) d.tonight = o.tonight;
+    return d;
+  };
   const mToday = dayMenu(today), mTomorrow = dayMenu(tomorrow);
   const startAt = readyBy - mToday.dinner.leadMinutes;
   const evs = (key) => events[key] || [];
@@ -37,7 +47,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   // ---- the one thing that matters next ----
   let head;
   const choreHeadline = (list) => list.map((e) => (PICKUP.test(e.title) ? e.title + " out" : e.title)).join(" and ");
-  const nextEv = timedToday.find((e) => e.start > t && e.start < startAt);
+  const nextEv = timedToday.find((e) => e.start > t && (mToday.dinner.noCook || e.start < startAt));
   if (evening) {
     const tm = evs(tomorrow), tmChores = tm.filter((e) => e.allDay && e.chore), tmFirst = tm.find((e) => !e.allDay);
     if (tonightTask) head = { cap: "Before bed", big: "Thaw for tomorrow", sub: tonightTask, kind: "thaw" };
@@ -47,7 +57,9 @@ export function buildModel({ now, config, menu, events, weather }) {
   } else if (t < choresUntil && choresToday.length) {
     head = { cap: "This morning", big: choreHeadline(choresToday), sub: choresToday.some((e) => PICKUP.test(e.title)) ? "Pickup is early." : "", kind: "chores" };
   } else if (nextEv) {
-    head = { cap: `Next · ${clock(nextEv.start)}`, big: nextEv.title, sub: `Then start dinner at ${clock(startAt)}.`, ev: nextEv };
+    head = { cap: `Next · ${clock(nextEv.start)}`, big: nextEv.title, sub: mToday.dinner.noCook ? "" : `Then start dinner at ${clock(startAt)}.`, ev: nextEv };
+  } else if (mToday.dinner.noCook && t < eatAt) {
+    head = { cap: "Today", big: mToday.dinner.name, sub: "" };
   } else if (t < startAt + 15) {
     head = { cap: `${t >= startAt ? "Now" : "Today"} · ${clock(startAt)}`, big: "Start dinner", sub: mToday.dinner.why + "." };
   } else if (t < eatAt) {
@@ -68,7 +80,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   const focus = evening ? mTomorrow : mToday;
   const meals = [];
   if (evening || t < hm(config.breakfastShownUntil)) meals.push({ label: evening ? "Tomorrow's breakfast" : "Breakfast", name: focus.breakfast.name });
-  meals.push({ label: `${evening ? "Tomorrow's dinner" : "Dinner"} · ready ${clock(readyBy)}`, name: focus.dinner.name });
+  meals.push({ label: `${evening ? "Tomorrow's dinner" : "Dinner"}${focus.dinner.noCook ? "" : ` · ready ${clock(readyBy)}`}`, name: focus.dinner.name });
 
   // ---- right-hand column of the band ----
   let side;
@@ -91,7 +103,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   // ---- home page rows under the photo ----
   const rows = [{ label: head.short, text: head.big, hot: true, note: head.sub || "" }];
   if (evening || t < hm(config.breakfastShownUntil)) rows.push({ label: evening ? "Breakfast" : "Breakfast", text: focus.breakfast.name });
-  rows.push({ label: "Dinner", text: focus.dinner.name });
+  if (focus.dinner.name !== head.big) rows.push({ label: "Dinner", text: focus.dinner.name });
   if (!evening && tonightTask && head.kind !== "thaw") rows.push({ label: "Tonight", text: tonightTask, check: true });
   if (evening && head.kind === "thaw") rows[0].note = tonightTask;
 
@@ -118,7 +130,7 @@ export function buildModel({ now, config, menu, events, weather }) {
   const mealsPage = {
     title: evening ? "Tomorrow's meals" : "Today's meals",
     dateLine: `${DOW_FULL[weekdayOf(evening ? tomorrow : today)]}, ${MONTHS[monthOf(evening ? tomorrow : today) - 1]} ${dayOfMonth(evening ? tomorrow : today)}`,
-    times: `Start by <b>${clock(readyBy - focus.dinner.leadMinutes)}</b> · ready ${clock(readyBy)} · eat ${clock(eatAt)}`,
+    times: focus.dinner.noCook ? "" : `Start by <b>${clock(readyBy - focus.dinner.leadMinutes)}</b> · ready ${clock(readyBy)} · eat ${clock(eatAt)}`,
     breakfast: focus.breakfast, dinner: focus.dinner, childName: menu.childName,
     beforeBed: tonightTask,
   };
